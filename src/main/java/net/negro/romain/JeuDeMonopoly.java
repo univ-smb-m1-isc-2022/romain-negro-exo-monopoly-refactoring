@@ -38,12 +38,10 @@ public class JeuDeMonopoly {
 
     private void jouerUnTour(Joueur unjoueur) {
         if (!stop) { //verifier avant le joueur suivant si la partie est arrete
-            int[] valeurLancer = unjoueur.lancer();
-            int total = combinaison.faitLaSomme(valeurLancer);
-            boolean verifdouble = combinaison.estUnDouble(valeurLancer);
+            int total = Goblet.lancer();
             unjoueur.monLance(total);  // plus logique de l'afficher avant son eventuel deplacement, achat ou paiment de loyer, prison j'ai donc decomposé mon ousuisje initial
     // SI DOUBLE
-            if (verifdouble) {
+            if (Goblet.estUnDouble()) {
                 unjoueur.aFaitUnDouble(plateau.prison);  // incremente double met rejouer a true, le met en prison , condition liberable
                 if (!unjoueur.estEnPrison()) {        // si pas ne prison ->  jouer  son resultat
                     jouerLeTotalDe(unjoueur, total);
