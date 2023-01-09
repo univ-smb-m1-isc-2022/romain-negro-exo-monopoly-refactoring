@@ -1,4 +1,4 @@
-package net.guillaume.teaching.refactoring.monopoly;
+package net.negro.romain;
 
 import java.util.ArrayList;
 import java.util.Collections;
