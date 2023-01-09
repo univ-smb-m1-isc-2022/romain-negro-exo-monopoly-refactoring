@@ -6,10 +6,11 @@ import java.util.Collections;
 public class JeuDeMonopoly {
 
     private final ArrayList<Joueur> joueurs = new ArrayList<>();
-    private final Combinaison combinaison;
     private boolean stop = false;
     private ArrayList<CaseConstructible> caseLibreAAchat = new ArrayList<>();
     private Plateau plateau ;
+
+    private final Goblet goblet;
 
 
 
@@ -20,7 +21,7 @@ public class JeuDeMonopoly {
         joueurs.add(new Joueur("Loubna","Elle", plateau.depart));
         joueurs.add(new Joueur("Mathieu","Il", plateau.depart));
         joueurs.add(new Joueur("Cedric","Il", plateau.depart));
-        combinaison = new Combinaison();
+        goblet = new Goblet( new De[]{new De(), new De()});
         caseLibreAAchat=  new ArrayList<>(plateau.getCaseAchetable());
     }
 
@@ -28,7 +29,7 @@ public class JeuDeMonopoly {
     public void jouerUnePartie() {
         while (!stop) {
             for (Joueur joueur : joueurs) {
-                jouerUnTour(joueur);
+                jouerUnTour(joueur, goblet);
                 liberer(joueur);
             }
         }
@@ -36,12 +37,12 @@ public class JeuDeMonopoly {
     }
 
 
-    private void jouerUnTour(Joueur unjoueur) {
+    private void jouerUnTour(Joueur unjoueur, Goblet goblet) {
         if (!stop) { //verifier avant le joueur suivant si la partie est arrete
-            int total = Goblet.lancer();
+            int total = goblet.lancer();
             unjoueur.monLance(total);  // plus logique de l'afficher avant son eventuel deplacement, achat ou paiment de loyer, prison j'ai donc decomposé mon ousuisje initial
     // SI DOUBLE
-            if (Goblet.estUnDouble()) {
+            if (goblet.estUnDouble()) {
                 unjoueur.aFaitUnDouble(plateau.prison);  // incremente double met rejouer a true, le met en prison , condition liberable
                 if (!unjoueur.estEnPrison()) {        // si pas ne prison ->  jouer  son resultat
                     jouerLeTotalDe(unjoueur, total);
@@ -51,7 +52,7 @@ public class JeuDeMonopoly {
                 {
                     System.out.println(unjoueur.getNomJ() +" rejoue.");
                     unjoueur.uneFoisCaSuffis();    // on remet a false son droit de rejouer  car appel recursif
-                    jouerUnTour(unjoueur);  // il joue un autre tour
+                    jouerUnTour(unjoueur, goblet);  // il joue un autre tour
                 }
                 if (unjoueur.getLiberable()) {   // libere le joueur en prison qui a fait un double
                     unjoueur.liberationDouble();

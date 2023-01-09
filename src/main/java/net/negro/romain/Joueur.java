@@ -47,7 +47,7 @@ public class Joueur implements Comparable {
         w=0;
         g=0;
         gare=0;
-        casespossedes= new ArrayList<CaseConstructible>();
+        casespossedes= new ArrayList<>();
     }
 
     public boolean getLiberable() {
