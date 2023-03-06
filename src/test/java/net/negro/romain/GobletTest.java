@@ -39,5 +39,6 @@ class GobletTest {
         Goblet g = new Goblet(new De[]{new DeMock(x), new DeMock(y)});
         g.lancer();
         assertTrue(g.valeurDes() == x+y);
+        // test
     }
 }
